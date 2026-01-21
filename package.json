@@ -1,5 +1,5 @@
 {
-  "name": "chit_chat",
+  "name": "chit-chat",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -9,7 +9,7 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "prettier": "^3.7.4",
+    "prettier": "3.8.0",
     "turbo": "^2.7.2",
     "typescript": "5.9.2"
   },
