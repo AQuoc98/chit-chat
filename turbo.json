@@ -8,7 +8,16 @@
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "eslint.config.js",
+        "eslint.config.mjs",
+        ".eslintrc",
+        ".eslintrc.js",
+        ".eslintrc.json"
+      ],
+      "outputs": []
     },
     "check-types": {
       "dependsOn": ["^check-types"],

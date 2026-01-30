@@ -1,0 +1,18 @@
+{
+  "name": "@chit-chat/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base": "./base.js",
+    "./react": "./react.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint-plugin-turbo": "^2.7.2",
+    "typescript-eslint": "^8.46.4"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0"
+  }
+}
