@@ -26,7 +26,8 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": ["PORT", "MONGODB_CONNECTION_STRING"]
     },
     "format": {
       "outputs": [],
