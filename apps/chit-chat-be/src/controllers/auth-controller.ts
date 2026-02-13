@@ -100,3 +100,29 @@ export const signIn = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal server error." });
   }
 };
+
+export const signOut = async (req: Request, res: Response) => {
+  try {
+    // get refreshToken from cookies
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      return res.status(400).json({ message: "Refresh token is required." });
+    }
+
+    // Delete session associated with the refresh token
+    await Session.findOneAndDelete({ refreshToken });
+
+    // Clear the refresh token cookie
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return res.status(204).send();
+  } catch (error) {
+    console.error("Error during sign out:", error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+};
