@@ -26,8 +26,8 @@
     "mongoose": "^9.1.5"
   },
   "devDependencies": {
-    "@chit-chat/eslint-config": "*",
-    "@chit-chat/typescript-config": "*",
+    "@chit-chat/eslint-config": "workspace:*",
+    "@chit-chat/typescript-config": "workspace:*",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.10",
