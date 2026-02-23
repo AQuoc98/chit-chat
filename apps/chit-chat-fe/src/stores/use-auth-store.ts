@@ -7,6 +7,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
   user: null,
   loading: false,
+  clearState: () => {
+    set({ accessToken: null, user: null, loading: false });
+  },
   signUp: async (username, password, email, firstName, lastName) => {
     try {
       set({ loading: true });
@@ -36,14 +39,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       set({ accessToken });
 
-      // get().setAccessToken(accessToken);
-      // await get().fetchMe();
       toast.success("Chào mừng bạn quay lại với Chit Chat 🎉");
     } catch (error) {
       console.error(error);
       toast.error("Đăng nhập không thành công!");
     } finally {
       set({ loading: false });
+    }
+  },
+  signOut: async () => {
+    try {
+      get().clearState();
+      await authService.signOut();
+      toast.success("Logout thành công!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Lỗi xảy ra khi logout. Hãy thử lại!");
     }
   },
 }));
