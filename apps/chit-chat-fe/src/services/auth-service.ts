@@ -29,4 +29,8 @@ export const authService = {
     const res = await api.get("/users/me");
     return res.data.user;
   },
+  refresh: async () => {
+    const res = await api.post("/auth/refresh");
+    return res.data.accessToken;
+  },
 };
