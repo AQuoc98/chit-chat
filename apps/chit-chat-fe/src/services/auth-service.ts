@@ -18,4 +18,8 @@ export const authService = {
 
     return res.data;
   },
+  signIn: async (username: string, password: string) => {
+    const res = await api.post("auth/signin", { username, password });
+    return res.data;
+  },
 };

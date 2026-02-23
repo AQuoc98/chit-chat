@@ -28,4 +28,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ loading: false });
     }
   },
+  signIn: async (username, password) => {
+    try {
+      set({ loading: true });
+
+      const { accessToken } = await authService.signIn(username, password);
+
+      set({ accessToken });
+
+      // get().setAccessToken(accessToken);
+      // await get().fetchMe();
+      toast.success("Chào mừng bạn quay lại với Chit Chat 🎉");
+    } catch (error) {
+      console.error(error);
+      toast.error("Đăng nhập không thành công!");
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));
