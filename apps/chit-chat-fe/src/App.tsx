@@ -3,6 +3,7 @@ import SignUpPage from "./pages/sign-up-page";
 import ChatAppPage from "./pages/chat-app-page";
 import { Toaster } from "sonner";
 import { BrowserRouter, Route, Routes } from "react-router";
+import ProtectedRoute from "./components/auth/protected-route";
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
         <Routes>
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/" element={<ChatAppPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<ChatAppPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
