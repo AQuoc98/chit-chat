@@ -6,6 +6,7 @@ import { protectedRoute } from "./middlewares/auth-middlewares.js";
 import authRoute from "./routes/auth-route.js";
 import userRoute from "./routes/user-route.js";
 import cors from "cors";
+import friendRoute from "./routes/friend-route.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use("/api/auth", authRoute);
 // private routes
 app.use(protectedRoute);
 app.use("/api/users", userRoute);
+app.use("/api/friends", friendRoute);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
