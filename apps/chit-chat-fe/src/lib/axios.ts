@@ -2,14 +2,11 @@ import { useAuthStore } from "@/stores/use-auth-store";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL:
-    import.meta.env.MODE === "development"
-      ? "http://localhost:5001/api"
-      : "/api",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
-// Attach access token to every request if exists
+// gắn access token vào req header
 api.interceptors.request.use((config) => {
   const { accessToken } = useAuthStore.getState();
 
@@ -20,13 +17,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle 403 errors and try to refresh token
+// tự động gọi refresh api khi access token hết hạn
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const originalRequest = error.config;
 
-    // List of endpoints that we don't want to intercept
+    // những api không cần check
     if (
       originalRequest.url.includes("/auth/signin") ||
       originalRequest.url.includes("/auth/signup") ||
@@ -41,17 +38,15 @@ api.interceptors.response.use(
       originalRequest._retryCount += 1;
 
       try {
-        const res = await api.post("/auth/refresh");
+        const res = await api.post("/auth/refresh", { withCredentials: true });
         const newAccessToken = res.data.accessToken;
 
         useAuthStore.getState().setAccessToken(newAccessToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
         return api(originalRequest);
       } catch (refreshError) {
         useAuthStore.getState().clearState();
-
         return Promise.reject(refreshError);
       }
     }

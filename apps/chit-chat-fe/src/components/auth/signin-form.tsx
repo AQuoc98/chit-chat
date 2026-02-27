@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router";
-import { Label } from "@/components/ui/label";
+import { Label } from "../ui/label";
 import { useAuthStore } from "@/stores/use-auth-store";
+import { useNavigate } from "react-router";
 
 const signInSchema = z.object({
   username: z.string().min(3, "Tên đăng nhập phải có ít nhất 3 ký tự"),
@@ -50,7 +50,7 @@ export function SigninForm({
 
                 <h1 className="text-2xl font-bold">Chào mừng quay lại</h1>
                 <p className="text-muted-foreground text-balance">
-                  Đăng nhập vào tài khoản Chit Chat của bạn
+                  Đăng nhập vào tài khoản Moji của bạn
                 </p>
               </div>
 
@@ -59,7 +59,12 @@ export function SigninForm({
                 <Label htmlFor="username" className="block text-sm">
                   Tên đăng nhập
                 </Label>
-                <Input type="text" id="username" {...register("username")} />
+                <Input
+                  type="text"
+                  id="username"
+                  placeholder="moji"
+                  {...register("username")}
+                />
                 {errors.username && (
                   <p className="text-destructive text-sm">
                     {errors.username.message}
