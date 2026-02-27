@@ -15,10 +15,10 @@ const friendSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
-friendSchema.pre("save", function () {
+friendSchema.pre("save", function (next) {
   const a = this.userA.toString();
   const b = this.userB.toString();
 
@@ -26,6 +26,8 @@ friendSchema.pre("save", function () {
     this.userA = new mongoose.Types.ObjectId(b);
     this.userB = new mongoose.Types.ObjectId(a);
   }
+
+  next();
 });
 
 friendSchema.index({ userA: 1, userB: 1 }, { unique: true });

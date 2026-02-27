@@ -1,15 +1,11 @@
-import { Request, Response } from "express";
-import User from "../models/User";
-import FriendRequest from "../models/FriendRequest";
-import Friend from "../models/Friend";
+import Friend from "../models/Friend.js";
+import User from "../models/User.js";
+import FriendRequest from "../models/FriendRequest.js";
 
-export const sendFriendRequest = async (req: Request, res: Response) => {
+export const sendFriendRequest = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: "User is not authenticated" });
-    }
-
     const { to, message } = req.body;
+
     const from = req.user._id;
 
     if (from === to) {
@@ -61,19 +57,16 @@ export const sendFriendRequest = async (req: Request, res: Response) => {
       .status(201)
       .json({ message: "Friend request sent successfully", request });
   } catch (error) {
-    console.error("Send friend request error: ", error);
+    console.error("Error in sendFriendRequest", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const acceptFriendRequest = async (req: Request, res: Response) => {
+export const acceptFriendRequest = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: "User is not authenticated" });
-    }
-
     const { requestId } = req.params;
     const userId = req.user._id;
+
     const request = await FriendRequest.findById(requestId);
 
     if (!request) {
@@ -83,13 +76,15 @@ export const acceptFriendRequest = async (req: Request, res: Response) => {
     if (request.to.toString() !== userId.toString()) {
       return res
         .status(403)
-        .json({ message: "You cannot accept this friend request" });
+        .json({
+          message: "You do not have permission to accept this friend request",
+        });
     }
 
-    // const friend = await Friend.create({
-    //   userA: request.from,
-    //   userB: request.to,
-    // });
+    const friend = await Friend.create({
+      userA: request.from,
+      userB: request.to,
+    });
 
     await FriendRequest.findByIdAndDelete(requestId);
 
@@ -106,19 +101,16 @@ export const acceptFriendRequest = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error("Accept friend request error: ", error);
+    console.error("Error in acceptFriendRequest", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const declineFriendRequest = async (req: Request, res: Response) => {
+export const declineFriendRequest = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: "User is not authenticated" });
-    }
-
     const { requestId } = req.params;
     const userId = req.user._id;
+
     const request = await FriendRequest.findById(requestId);
 
     if (!request) {
@@ -128,24 +120,22 @@ export const declineFriendRequest = async (req: Request, res: Response) => {
     if (request.to.toString() !== userId.toString()) {
       return res
         .status(403)
-        .json({ message: "You cannot decline this friend request" });
+        .json({
+          message: "You do not have permission to decline this friend request",
+        });
     }
 
     await FriendRequest.findByIdAndDelete(requestId);
 
     return res.sendStatus(204);
   } catch (error) {
-    console.error("Decline friend request error: ", error);
+    console.error("Error in declineFriendRequest", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const getAllFriends = async (req: Request, res: Response) => {
+export const getAllFriends = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: "User is not authenticated" });
-    }
-
     const userId = req.user._id;
 
     const friendships = await Friend.find({
@@ -172,18 +162,15 @@ export const getAllFriends = async (req: Request, res: Response) => {
 
     return res.status(200).json({ friends });
   } catch (error) {
-    console.error("Error while fetching friends list", error);
+    console.error("Error in getAllFriends", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const getFriendRequests = async (req: Request, res: Response) => {
+export const getFriendRequests = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: "User is not authenticated" });
-    }
-
     const userId = req.user._id;
+
     const populateFields = "_id username displayName avatarUrl";
 
     const [sent, received] = await Promise.all([
@@ -193,7 +180,7 @@ export const getFriendRequests = async (req: Request, res: Response) => {
 
     res.status(200).json({ sent, received });
   } catch (error) {
-    console.error("Error while fetching friend requests", error);
+    console.error("Error in getFriendRequests", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

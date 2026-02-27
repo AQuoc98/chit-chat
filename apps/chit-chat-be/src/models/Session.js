@@ -13,19 +13,17 @@ const sessionSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    expiredAt: {
+    expiresAt: {
       type: Date,
       required: true,
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
-// auto delete expired sessions
-sessionSchema.index({ expiredAt: 1 }, { expireAfterSeconds: 0 });
+// tự động xoá khi hết hạn
+sessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-const Session = mongoose.model("Session", sessionSchema);
-
-export default Session;
+export default mongoose.model("Session", sessionSchema);

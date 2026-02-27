@@ -17,8 +17,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      trim: true,
       lowercase: true,
+      trim: true,
     },
     displayName: {
       type: String,
@@ -26,14 +26,14 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     avatarUrl: {
-      type: String,
+      type: String, // link CDN
     },
     avatarId: {
-      type: String,
+      type: String, // Cloudinary public_id
     },
     bio: {
       type: String,
-      maxLength: 500,
+      maxlength: 500,
     },
     phone: {
       type: String,
@@ -46,5 +46,4 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("User", userSchema);
-
 export default User;

@@ -14,7 +14,7 @@ const participantSchema = new mongoose.Schema(
   },
   {
     _id: false,
-  },
+  }
 );
 
 const groupSchema = new mongoose.Schema(
@@ -30,7 +30,7 @@ const groupSchema = new mongoose.Schema(
   },
   {
     _id: false,
-  },
+  }
 );
 
 const lastMessageSchema = new mongoose.Schema(
@@ -51,7 +51,7 @@ const lastMessageSchema = new mongoose.Schema(
   },
   {
     _id: false,
-  },
+  }
 );
 
 const conversationSchema = new mongoose.Schema(
@@ -89,7 +89,7 @@ const conversationSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 conversationSchema.index({

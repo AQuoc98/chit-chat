@@ -4,9 +4,9 @@ import {
   signIn,
   signOut,
   signUp,
-} from "../controllers/auth-controller";
+} from "../controllers/auth-controller.js";
 
-const router: express.Router = express.Router();
+const router = express.Router();
 
 router.post("/signup", signUp);
 
