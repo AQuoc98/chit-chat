@@ -10,8 +10,8 @@ import { useAuthStore } from "@/stores/use-auth-store";
 import { useNavigate } from "react-router";
 
 const signInSchema = z.object({
-  username: z.string().min(3, "Tên đăng nhập phải có ít nhất 3 ký tự"),
-  password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
+  username: z.string().min(3, "Username must be at least 3 characters"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 type SignInFormValues = z.infer<typeof signInSchema>;
@@ -48,23 +48,18 @@ export function SigninForm({
                   <img src="/logo.svg" alt="logo" />
                 </a>
 
-                <h1 className="text-2xl font-bold">Chào mừng quay lại</h1>
+                <h1 className="text-2xl font-bold">Welcome Back</h1>
                 <p className="text-muted-foreground text-balance">
-                  Đăng nhập vào tài khoản Moji của bạn
+                  Sign in to your Chit Chat account
                 </p>
               </div>
 
               {/* username */}
               <div className="flex flex-col gap-3">
                 <Label htmlFor="username" className="block text-sm">
-                  Tên đăng nhập
+                  Username
                 </Label>
-                <Input
-                  type="text"
-                  id="username"
-                  placeholder="moji"
-                  {...register("username")}
-                />
+                <Input type="text" id="username" {...register("username")} />
                 {errors.username && (
                   <p className="text-destructive text-sm">
                     {errors.username.message}
@@ -75,7 +70,7 @@ export function SigninForm({
               {/* password */}
               <div className="flex flex-col gap-3">
                 <Label htmlFor="password" className="block text-sm">
-                  Mật khẩu
+                  Password
                 </Label>
                 <Input
                   type="password"
@@ -89,15 +84,15 @@ export function SigninForm({
                 )}
               </div>
 
-              {/* nút đăng nhập */}
+              {/* sign in button */}
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                Đăng nhập
+                Sign In
               </Button>
 
               <div className="text-center text-sm">
-                Chưa có tài khoản?{" "}
+                Don't have an account?{" "}
                 <a href="/signup" className="underline underline-offset-4">
-                  Đăng ký
+                  Sign Up
                 </a>
               </div>
             </div>
@@ -112,8 +107,8 @@ export function SigninForm({
         </CardContent>
       </Card>
       <div className=" text-xs text-balance px-6 text-center *:[a]:hover:text-primary text-muted-foreground *:[a]:underline *:[a]:underline-offetset-4">
-        Bằng cách tiếp tục, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> và{" "}
-        <a href="#">Chính sách bảo mật</a> của chúng tôi.
+        By continuing, you agree to our <a href="#">Terms of Service</a> and{" "}
+        <a href="#">Privacy Policy</a>.
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ export const uploadImageFromBuffer = (buffer, options) => {
         } else {
           resolve(result);
         }
-      }
+      },
     );
 
     uploadStream.end(buffer);
